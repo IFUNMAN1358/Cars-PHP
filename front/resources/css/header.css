@@ -1,0 +1,42 @@
+header {
+    background-color: #2A2C29;
+    padding: 20px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+header nav span {
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+header .auth span {
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+span {
+    text-decoration: none;
+    color: #DFDFDF;
+    transition: color 0.3s;
+    text-transform: uppercase;
+}
+
+span:hover {
+    color: #FFFFFF;
+}

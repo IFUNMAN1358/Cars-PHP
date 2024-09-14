@@ -1,0 +1,74 @@
+main {
+    background-image: url('../photo/main.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 50px 0;
+}
+
+.content-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.text-block {
+    background-color: #2A2C29;
+    padding: 40px;
+    border-radius: 12px;
+}
+
+.text-block h3 {
+    margin-top: 0;
+    color: #ffffff;
+    font-size: 28px;
+}
+
+.text-block p, .text-block ul {
+    margin: 0;
+    font-size: 18px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li::before {
+    content: "• ";
+    color: #ffffff;
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .content-container {
+        grid-template-columns: 1fr;
+    }
+
+    .text-block {
+        margin-bottom: 20px;
+    }
+
+}
+
+@media (min-width: 1024px) {
+    .text-block {
+        padding: 60px;
+    }
+
+    .text-block h3 {
+        font-size: 36px;
+    }
+
+    .text-block p, .text-block ul {
+        font-size: 20px;
+    }
+
+    li::before {
+        font-size: 24px;
+    }
+}

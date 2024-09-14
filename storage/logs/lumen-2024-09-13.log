@@ -1,0 +1,84 @@
+[2024-09-13 16:56:12] production.ERROR: SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO) {"exception":"[object] (PDOException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO) at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(10): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 16:57:00] production.ERROR: SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO) {"exception":"[object] (PDOException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO) at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(10): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:18:55] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:27)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:19:16] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:27)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:20:40] production.ERROR: Unknown character set:  {"exception":"[object] (Exception(code: 0): Unknown character set:  at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:18)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:22:30] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:24:17] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:25:39] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:26:04] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:27:12] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:28:41] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:31)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:31:17] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:36)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:31:41] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:36)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 
+[2024-09-13 17:32:21] production.ERROR: SQLSTATE[HY000] [2019] Unknown character set {"exception":"[object] (PDOException(code: 2019): SQLSTATE[HY000] [2019] Unknown character set at C:\\Users\\user\\PhpStormProjects\\cars\\src\\config\\db.php:35)
+[stacktrace]
+#0 C:\\Users\\user\\PhpStormProjects\\cars\\src\\app.php(11): connect_db()
+#1 C:\\Users\\user\\PhpStormProjects\\cars\\src\\index.php(5): require_once('C:\\\\Users\\\\user\\\\P...')
+#2 {main}
+"} 

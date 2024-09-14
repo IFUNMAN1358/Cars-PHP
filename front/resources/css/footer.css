@@ -1,0 +1,46 @@
+footer {
+    background-color: #2A2C29;
+    padding: 40px 20px;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+footer .support, footer .contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer .support p, footer .contacts p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+footer .support p {
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+footer .contacts p {
+    font-weight: 400;
+}
+
+footer .contacts p:nth-child(n+2) {
+    text-transform: none;
+    font-size: 15px;
+}
+
+footer .divider {
+    display: none;
+}
+
+footer .support::after {
+    display: none;
+}

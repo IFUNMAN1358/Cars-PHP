@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars</title>
+    <link rel="stylesheet" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/header.css">
+    <link rel="stylesheet" href="resources/css/registration.css">
+    <link rel="stylesheet" href="resources/css/footer.css">
+    <script src="resources/js/redirect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">CARS</div>
+        <nav>
+            <span onclick="openMainPage()">Главная</span>
+            <span onclick="openCatalogPage()">Каталог</span>
+        </nav>
+        <div class="auth">
+            <span onclick="openLoginPage()">Вход</span>
+            <span onclick="openRegistrationPage()">Регистрация</span>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="registration-container">
+        <form class="registration-form" id="registrationForm">
+            <h2>РЕГИСТРАЦИЯ</h2>
+
+            <div class="form-group">
+                <div class="error" id="first_name_error"></div>
+                <label for="first_name"></label>
+                <input type="text" name="first_name" id="first_name" placeholder="Имя" required>
+            </div>
+
+            <div class="form-group">
+                <div class="error" id="last_name_error"></div>
+                <label for="last_name"></label>
+                <input type="text" name="last_name" id="last_name" placeholder="Фамилия" required>
+            </div>
+
+            <div class="form-group">
+                <div class="error" id="phone_error"></div>
+                <label for="phone"></label>
+                <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
+            </div>
+
+            <div class="form-group">
+                <div class="error" id="email_error"></div>
+                <label for="email"></label>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+            </div>
+
+            <div class="form-group">
+                <div class="error" id="password_error"></div>
+                <label for="password"></label>
+                <input type="password" name="password" id="password" placeholder="Пароль" required>
+            </div>
+
+            <div class="form-group">
+                <div class="error" id="confirm_password_error"></div>
+                <label for="confirm_password"></label>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Повторите пароль" required>
+            </div>
+
+            <button type="button" onclick="submitRegistration()">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+        </form>
+    </div>
+</main>
+<footer>
+    <div class="container">
+        <div class="support">
+            <p>Поддержка</p>
+            <p>Низкие цены</p>
+            <p>Быстрая доставка</p>
+        </div>
+        <div class="contacts">
+            <p>Контакты</p>
+            <p>Telegram: @cars</p>
+            <p>ВКонтакте: vk.com/Cars</p>
+            <p>Телефон: +7-800-000-80-80</p>
+        </div>
+    </div>
+</footer>
+<script>
+    async function submitRegistration() {
+        const firstName = document.getElementById('first_name').value;
+        const lastName = document.getElementById('last_name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        let hasError = false;
+
+        document.querySelectorAll('.error').forEach(errorElement => errorElement.style.display = 'none');
+
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            document.getElementById('email_error').textContent = 'Некорректный email';
+            document.getElementById('email_error').style.display = 'block';
+            hasError = true;
+        }
+
+        const phonePattern = /^\+?[78][-(]?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{2}[-.\s]?\d{2}$/;
+        if (!phonePattern.test(phone)) {
+            document.getElementById('phone_error').textContent = 'Некорректный номер телефона';
+            document.getElementById('phone_error').style.display = 'block';
+            hasError = true;
+        }
+
+        if (password !== confirmPassword) {
+            document.getElementById('confirm_password_error').textContent = 'Пароли не совпадают';
+            document.getElementById('confirm_password_error').style.display = 'block';
+            hasError = true;
+        }
+
+        if (hasError) return;
+
+        const data = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone: phone,
+            password: password
+        };
+
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/registration`, data);
+            console.log(response.data);
+            window.location.href = "./login.html";
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    }
+</script>
+</body>
+</html>

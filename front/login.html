@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars</title>
+    <link rel="stylesheet" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/header.css">
+    <link rel="stylesheet" href="resources/css/registration.css">
+    <link rel="stylesheet" href="resources/css/footer.css">
+    <script src="resources/js/redirect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">CARS</div>
+        <nav>
+            <span onclick="openMainPage()">Главная</span>
+            <span onclick="openCatalogPage()">Каталог</span>
+        </nav>
+        <div class="auth">
+            <span onclick="openLoginPage()">Вход</span>
+            <span onclick="openRegistrationPage()">Регистрация</span>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="registration-container">
+        <form class="registration-form" id="registrationForm">
+            <h2>ВХОД</h2>
+            <label for="phone"></label>
+            <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
+
+            <label for="password"></label>
+            <input type="password" name="password" id="password" placeholder="Пароль" required>
+
+            <button type="button" onclick="submitLogin()">ВОЙТИ</button>
+        </form>
+    </div>
+</main>
+<footer>
+    <div class="container">
+        <div class="support">
+            <p>Поддержка</p>
+            <p>Низкие цены</p>
+            <p>Быстрая доставка</p>
+        </div>
+        <div class="contacts">
+            <p>Контакты</p>
+            <p>Telegram: @cars</p>
+            <p>ВКонтакте: vk.com/Cars</p>
+            <p>Телефон: +7-800-000-80-80</p>
+        </div>
+    </div>
+</footer>
+<script>
+    async function submitLogin() {
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+
+        const data = {
+            phone: phone,
+            password: password
+        };
+
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/login`, data);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    }
+</script>
+</body>
+</html>
