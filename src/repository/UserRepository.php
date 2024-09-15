@@ -2,41 +2,47 @@
 
 namespace src\repository;
 
-use PDO;
-use src\model\User;
 use Exception;
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
     /**
      * @throws Exception
      */
-    public function saveUser(User $user) {
-        $pdo = connect_db();
-        $sql = "INSERT INTO users (first_name, last_name, phone, email, password) 
-                VALUES (:first_name, :last_name, :phone, :email, :password)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':first_name' => $user->getFirstName(),
-            ':last_name' => $user->getLastName(),
-            ':phone' => $user->getPhone(),
-            ':email' => $user->getEmail(),
-            ':password' => $user->getPassword(),
-        ]);
-
-        $id = $pdo->lastInsertId();
-        return $this->getUserById($id);
+    public static function saveUser($first_name, $last_name, $phone, $email, $password) {
+        return self::save(
+            "INSERT INTO users (first_name, last_name, phone, email, password)
+                VALUES (:first_name, :last_name, :phone, :email, :password)",
+            [
+                ':first_name' => $first_name,
+                ':last_name' => $last_name,
+                ':phone' => $phone,
+                ':email' => $email,
+                ':password' => $password,
+            ]
+        );
     }
 
     /**
      * @throws Exception
      */
-    function getUserById($userId) {
-        $pdo = connect_db();
-        $sql = "SELECT * FROM users WHERE id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':id' => $userId]);
+    public static function getUserById($userId) {
+        return self::get(
+            "SELECT * FROM users WHERE id = :id",
+            [':id' => $userId]
+        );
+    }
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    /**
+     * @throws Exception
+     */
+    public static function assignRoleToUser($userId, $roleId) {
+        return self::save(
+            "INSERT INTO role_user (user_id, role_id) VALUES (:user_id, :role_id)",
+            [
+                ':user_id' => $userId,
+                ':role_id' => $roleId
+            ]
+        );
     }
 }

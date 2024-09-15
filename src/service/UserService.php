@@ -2,38 +2,42 @@
 
 namespace src\service;
 
+use src\database\Database;
 use src\dto\user\UserDto;
 use src\exception\InvalidUserDataException;
-use src\model\User;
+use src\exception\RoleNotFoundException;
+use src\repository\RoleRepository;
 use src\repository\UserRepository;
 use Exception;
 
 class UserService {
 
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository) {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * @throws InvalidUserDataException
      * @throws Exception
      */
-    public function createUser($data) {
+    public static function createUser($requestBody) {
+        return Database::beginTransaction(function() use ($requestBody) {
 
-        if (!UserDto::validateRegisterData($data)) {
-            throw new InvalidUserDataException();
-        }
+            if (!UserDto::validateRegisterData($requestBody)) {
+                throw new InvalidUserDataException();
+            }
 
-        $user = new User(
-            $data['firstName'],
-            $data['lastName'],
-            $data['phone'],
-            $data['email'],
-            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT)
-        );
+            $userId = UserRepository::saveUser(
+                $requestBody['firstName'],
+                $requestBody['lastName'],
+                $requestBody['phone'],
+                $requestBody['email'],
+                password_hash($requestBody['password'], PASSWORD_BCRYPT)
+            );
 
-        return $this->userRepository->saveUser($user);
+            $role = RoleRepository::getRoleByName('ROLE_USER');
+            if (!$role) {
+                throw new RoleNotFoundException();
+            }
+            UserRepository::assignRoleToUser($userId, $role['id']);
+
+            return UserRepository::getUserById($userId);
+        });
     }
 }

@@ -2,13 +2,14 @@
 
 namespace src\core;
 
+use Exception;
 use PDO;
 
 class MigrationManager {
 
     private $pdo;
 
-    public function __construct($pdo) {
+    public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
     }
 
@@ -23,8 +24,9 @@ class MigrationManager {
                 if (class_exists($migrationClass)) {
                     try {
                         $migrationClass::up($this->pdo);
+                        echo "Applied migration: $migrationClass\n";
                         $this->logMigration($migrationClass);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         echo "Migration error $migrationClass: " . $e->getMessage();
                     }
                 }
