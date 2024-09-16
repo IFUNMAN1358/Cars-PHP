@@ -3,6 +3,9 @@
 namespace src\service;
 
 use Exception;
+use src\dto\UserRequest;
+use src\dto\UserResponse;
+use src\exception\IncorrectPasswordException;
 use src\exception\InvalidUserDataException;
 
 class AuthService {
@@ -13,11 +16,14 @@ class AuthService {
      */
     public static function registration($requestBody): array
     {
+        if (!UserRequest::validateRegisterData($requestBody)) {
+            throw new InvalidUserDataException();
+        }
+
         $user = UserService::createUser($requestBody);
-        $tokens = JwtService::generateJwtTokens($user);
         return [
-            "user" => $user,
-            "jwt" => $tokens
+            "user" => UserResponse::map($user),
+            "jwt" => JwtService::generateJwtTokens($user)
         ];
     }
 
@@ -27,11 +33,19 @@ class AuthService {
      */
     public static function login($requestBody): array
     {
+        if (!UserRequest::validateLoginData($requestBody)) {
+            throw new InvalidUserDataException();
+        }
+
         $user = UserService::getUser($requestBody);
-        $tokens = JwtService::generateJwtTokens($user);
+
+        if (!password_verify($requestBody['password'], $user['password'])) {
+            throw new IncorrectPasswordException();
+        }
+
         return [
-            "user" => $user,
-            "jwt" => $tokens
+            "user" => UserResponse::map($user),
+            "jwt" => JwtService::generateJwtTokens($user)
         ];
     }
 

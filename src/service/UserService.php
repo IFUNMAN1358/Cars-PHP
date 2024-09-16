@@ -4,8 +4,6 @@ namespace src\service;
 
 use Exception;
 use src\database\Database;
-use src\dto\UserDto;
-use src\exception\IncorrectPasswordException;
 use src\exception\InvalidUserDataException;
 use src\exception\RoleNotFoundException;
 use src\exception\UserAlreadyExistsException;
@@ -19,24 +17,20 @@ class UserService {
      * @throws InvalidUserDataException
      * @throws Exception
      */
-    public static function createUser($requestBody) {
-        return Database::beginTransaction(function() use ($requestBody) {
+    public static function createUser($data) {
+        return Database::beginTransaction(function() use ($data) {
 
-            if (!UserDto::validateRegisterData($requestBody)) {
-                throw new InvalidUserDataException();
-            }
-
-            $existingUser = UserRepository::getUserByEmailOrPhone($requestBody['email'], $requestBody['phone']);
+            $existingUser = UserRepository::getUserByEmailOrPhone($data['email'], $data['phone']);
             if ($existingUser) {
                 throw new UserAlreadyExistsException();
             }
 
             $userId = UserRepository::saveUser(
-                $requestBody['firstName'],
-                $requestBody['lastName'],
-                $requestBody['phone'],
-                $requestBody['email'],
-                password_hash($requestBody['password'], PASSWORD_BCRYPT)
+                $data['firstName'],
+                $data['lastName'],
+                $data['phone'],
+                $data['email'],
+                password_hash($data['password'], PASSWORD_BCRYPT)
             );
 
             $role = RoleRepository::getRoleByName('ROLE_USER');
@@ -52,24 +46,17 @@ class UserService {
     }
 
     /**
-     * @throws InvalidUserDataException
-     * @throws Exception
+     * @throws UserNotFoundException
      */
-    public static function getUser($requestBody) {
-        if (!UserDto::validateLoginData($requestBody)) {
-            throw new InvalidUserDataException();
-        }
+    public static function getUser($data) {
 
-        $email = $requestBody['email'] ?? null;
-        $phone = $requestBody['phone'] ?? null;
+        $id = $data['userId'] ?? null;
+        $email = $data['email'] ?? null;
+        $phone = $data['phone'] ?? null;
 
-        $user = UserRepository::getUserByEmailOrPhone($email, $phone);
+        $user = UserRepository::getUserByIdOrEmailOrPhone($id, $email, $phone);
         if (!$user) {
             throw new UserNotFoundException();
-        }
-
-        if (!password_verify($requestBody['password'], $user['password'])) {
-            throw new IncorrectPasswordException();
         }
 
         $user['roles'] = UserRepository::getUserRolesById($user['id']);

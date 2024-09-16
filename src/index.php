@@ -13,5 +13,8 @@ $router = new Router();
 
 $router->addRouter(require_once __DIR__ . '/router/test_router.php');
 $router->addRouter(require_once __DIR__ . '/router/auth_router.php');
-$router->addRouter(require_once __DIR__ . '/router/user_router.php');
+$router->addRouter(require_once __DIR__ . '/router/account/user_router.php');
+$router->addRouter(require_once __DIR__ . '/router/account/address_router.php');
+$router->addRouter(require_once __DIR__ . '/router/account/passport_router.php');
+$router->addRouter(require_once __DIR__ . '/router/account/driver_license_router.php');
 $router->run();
