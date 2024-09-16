@@ -4,7 +4,8 @@ namespace src\database\migrations;
 
 class M002CreateUserTable
 {
-    public static function up($pdo) {
+    public static function up($pdo): void
+    {
         $pdo->exec("
                     CREATE TABLE IF NOT EXISTS users (
                         id INT AUTO_INCREMENT PRIMARY KEY,

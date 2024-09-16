@@ -1,19 +1,20 @@
 <?php
 
-namespace src\core;
+namespace src\database;
 
 use Exception;
 use PDO;
 
 class MigrationManager {
 
-    private $pdo;
+    private ?PDO $pdo;
 
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
     }
 
-    public function run() {
+    public function run(): void
+    {
         $appliedMigrations = $this->getAppliedMigrations();
 
         $migrationFiles = glob(__DIR__ . '/../database/migrations/*.php');
@@ -34,7 +35,8 @@ class MigrationManager {
         }
     }
 
-    private function getAppliedMigrations() {
+    private function getAppliedMigrations(): bool|array
+    {
         $stmt = $this->pdo->query("SHOW TABLES LIKE 'migrations'");
         if ($stmt->rowCount() === 0) {
             $this->pdo->exec("CREATE TABLE migrations (migration VARCHAR(255), applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
@@ -43,7 +45,8 @@ class MigrationManager {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    private function logMigration($migration) {
+    private function logMigration($migration): void
+    {
         $this->pdo->prepare("INSERT INTO migrations (migration) VALUES (?)")->execute([$migration]);
     }
 }

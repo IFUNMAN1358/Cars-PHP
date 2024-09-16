@@ -4,7 +4,8 @@ namespace src\database\migrations;
 
 class M003CreateUserRoleTable
 {
-    public static function up($pdo) {
+    public static function up($pdo): void
+    {
         $pdo->exec("
                     CREATE TABLE IF NOT EXISTS role_user (
                         id INT AUTO_INCREMENT PRIMARY KEY,

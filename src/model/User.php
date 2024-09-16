@@ -2,16 +2,18 @@
 
 namespace src\model;
 
+use DateTime;
+
 class User {
 
-    private $id;
-    private $firstName;
-    private $lastName;
-    private $phone;
-    private $email;
-    private $password;
-    private $createdAt;
-    private $updatedAt;
+    private int $id;
+    private string $firstName;
+    private string $lastName;
+    private string $phone;
+    private string $email;
+    private string $password;
+    private DateTime $createdAt;
+    private DateTime $updatedAt;
 
     public function __construct($firstName, $lastName, $phone, $email, $password) {
         $this->firstName = $firstName;
@@ -21,135 +23,84 @@ class User {
         $this->password = $password;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @param mixed $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFirstName($firstName): void
     {
         $this->firstName = $firstName;
     }
 
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName)
+    public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
     }
 
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone)
+    public function setPhone($phone): void
     {
         $this->phone = $phone;
     }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
+    public function setEmail($email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
+    public function setPassword($password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @param mixed $createdAt
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @param mixed $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
-
-
-
 
 }

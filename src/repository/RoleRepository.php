@@ -8,7 +8,8 @@ class RoleRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    public static function saveRole($name) {
+    public static function saveRole(string $name): int
+    {
         return self::save(
             "INSERT INTO roles (name) VALUES (:name)",
             [":name" => $name]
@@ -18,8 +19,9 @@ class RoleRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    public static function getRoleByName($name) {
-        return self::get(
+    public static function getRoleByName(string $name)
+    {
+        return self::getFirst(
             "SELECT * FROM roles WHERE name = :name",
             [":name" => $name]
         );

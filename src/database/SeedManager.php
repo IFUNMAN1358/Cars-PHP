@@ -1,19 +1,20 @@
 <?php
 
-namespace src\core;
+namespace src\database;
 
 use Exception;
 use PDO;
 
 class SeedManager {
 
-    private $pdo;
+    private ?PDO $pdo;
 
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
     }
 
-    public function run() {
+    public function run(): void
+    {
         $seedFiles = glob(__DIR__ . '/../database/seeds/*.php');
         foreach ($seedFiles as $seedFile) {
             $seedClass = 'src\\database\\seeds\\' . basename($seedFile, '.php');

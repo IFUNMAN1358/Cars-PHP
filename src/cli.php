@@ -5,13 +5,14 @@ require_once __DIR__ . '/config/Env.php';
 require_once __DIR__ . '/database/Database.php';
 
 use src\config\Env;
-use src\core\MigrationManager;
-use src\core\SeedManager;
 use src\database\Database;
+use src\database\MigrationManager;
+use src\database\SeedManager;
 
 Env::init();
 
-function runMigrations() {
+function runMigrations(): void
+{
     try {
         $pdo = Database::getConnection();
         $migrationManager = new MigrationManager($pdo);
@@ -22,7 +23,8 @@ function runMigrations() {
     }
 }
 
-function runSeeds() {
+function runSeeds(): void
+{
     try {
         $pdo = Database::getConnection();
         $seedManager = new SeedManager($pdo);
@@ -33,7 +35,7 @@ function runSeeds() {
     }
 }
 
-$command = isset($argv[1]) ? $argv[1] : null;
+$command = $argv[1] ?? null;
 
 if ($command === 'migrate') {
     runMigrations();

@@ -9,12 +9,13 @@ use src\config\Env;
 
 class Database {
 
-    private static $pdo = null;
+    private static ?PDO $pdo = null;
 
     /**
      * @throws Exception
      */
-    public static function getConnection() {
+    public static function getConnection(): ?PDO
+    {
         if (self::$pdo === null) {
             $dsn = "mysql:host=" . Env::$dbHost . ";port=" . Env::$dbPort . ";dbname=" . Env::$dbName . ";charset=" . Env::$dbCharset;
             $options = [
@@ -26,7 +27,7 @@ class Database {
             try {
                 self::$pdo = new PDO($dsn, Env::$dbUser, Env::$dbPass, $options);
             } catch (PDOException $e) {
-                throw new \PDOException($e->getMessage(), (int)$e->getCode());
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
             }
         }
         return self::$pdo;

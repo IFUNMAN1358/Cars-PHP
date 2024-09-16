@@ -2,13 +2,16 @@
 
 namespace src\service;
 
+use Exception;
 use src\database\Database;
-use src\dto\user\UserDto;
+use src\dto\UserDto;
+use src\exception\IncorrectPasswordException;
 use src\exception\InvalidUserDataException;
 use src\exception\RoleNotFoundException;
+use src\exception\UserAlreadyExistsException;
+use src\exception\UserNotFoundException;
 use src\repository\RoleRepository;
 use src\repository\UserRepository;
-use Exception;
 
 class UserService {
 
@@ -21,6 +24,11 @@ class UserService {
 
             if (!UserDto::validateRegisterData($requestBody)) {
                 throw new InvalidUserDataException();
+            }
+
+            $existingUser = UserRepository::getUserByEmailOrPhone($requestBody['email'], $requestBody['phone']);
+            if ($existingUser) {
+                throw new UserAlreadyExistsException();
             }
 
             $userId = UserRepository::saveUser(
@@ -37,7 +45,35 @@ class UserService {
             }
             UserRepository::assignRoleToUser($userId, $role['id']);
 
-            return UserRepository::getUserById($userId);
+            $user = UserRepository::getUserById($userId);
+            $user['roles'] = UserRepository::getUserRolesById($userId);
+            return $user;
         });
     }
+
+    /**
+     * @throws InvalidUserDataException
+     * @throws Exception
+     */
+    public static function getUser($requestBody) {
+        if (!UserDto::validateLoginData($requestBody)) {
+            throw new InvalidUserDataException();
+        }
+
+        $email = $requestBody['email'] ?? null;
+        $phone = $requestBody['phone'] ?? null;
+
+        $user = UserRepository::getUserByEmailOrPhone($email, $phone);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+
+        if (!password_verify($requestBody['password'], $user['password'])) {
+            throw new IncorrectPasswordException();
+        }
+
+        $user['roles'] = UserRepository::getUserRolesById($user['id']);
+        return $user;
+    }
+
 }
