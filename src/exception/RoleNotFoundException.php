@@ -2,8 +2,11 @@
 
 namespace src\exception;
 
-use Exception;
+class RoleNotFoundException extends HttpException {
 
-class RoleNotFoundException extends Exception {
+    public function __construct()
+    {
+        parent::__construct("Role not found", 500);
+    }
 
 }

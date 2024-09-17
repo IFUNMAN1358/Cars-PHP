@@ -5,62 +5,63 @@ namespace src\controller;
 use Exception;
 use src\core\Request;
 use src\core\Response;
+use src\dto\UserRequest;
+use src\dto\UserResponse;
 use src\exception\IncorrectPasswordException;
 use src\exception\InvalidUserDataException;
 use src\exception\RoleNotFoundException;
 use src\exception\UserAlreadyExistsException;
 use src\exception\UserNotFoundException;
 use src\security\AuthContext;
-use src\service\AuthService;
+use src\service\JwtService;
+use src\service\UserService;
 
 class AuthController {
 
-    public function registration(): void
-    {
-        try {
-            $requestBody = Request::getBody();
+    /**
+     * @throws InvalidUserDataException
+     * @throws UserAlreadyExistsException
+     * @throws RoleNotFoundException
+     * @throws Exception
+     */
+    public function registration(): void {
+        $data = UserRequest::validateRegisterData(Request::getBody());
 
-            $data = AuthService::registration($requestBody);
-            Response::json($data, 201);
+        $user = UserService::createUser($data);
 
-        } catch (InvalidUserDataException) {
-            Response::json(["error" => "Invalid input user data"], 400);
-        } catch (UserAlreadyExistsException) {
-            Response::json(["error" => "User already exists"], 500);
-        } catch (RoleNotFoundException) {
-            Response::json(["error" => "Role not found"], 500);
-        } catch (Exception) {
-            Response::json(["error" => "User registration error"], 500);
-        }
+        Response::json([
+            "user" => UserResponse::map($user),
+            "jwt" => JwtService::generateJwtTokens($user)
+        ], 201);
     }
 
-    public function login(): void
-    {
-        try {
-            $requestBody = Request::getBody();
+    /**
+     * @throws InvalidUserDataException
+     * @throws IncorrectPasswordException
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public function login(): void {
+        $data = UserRequest::validateLoginData(Request::getBody());
 
-            $data = AuthService::login($requestBody);
-            Response::json($data);
+        $user = UserService::getUser($data);
 
-        } catch (InvalidUserDataException) {
-            Response::json(["error" => "Invalid input user data"], 400);
-        } catch (UserNotFoundException) {
-            Response::json(["error" => "User not found"], 500);
-        } catch (IncorrectPasswordException) {
-            Response::json(["error" => "Incorrect password"], 400);
-        } catch (Exception) {
-            Response::json(["error" => "User login error"], 500);
+        if (!password_verify($data['password'], $user['password'])) {
+            throw new IncorrectPasswordException();
         }
+
+        Response::json([
+            "user" => UserResponse::map($user),
+            "jwt" => JwtService::generateJwtTokens($user)
+        ], 200);
     }
 
-    public function logout(): void
-    {
-        try {
-            $authInfo = AuthContext::getAuthInfo();
-            Response::json(["message" => "Logout successful"]);
-        } catch (Exception) {
-            Response::json(["error" => "Logout error"], 500);
-        }
+    /**
+     * @throws Exception
+     */
+    public function logout(): void {
+        $authInfo = AuthContext::getAuthInfo();
+        Response::json(["message" => "Logout successful"], 200);
     }
 
 }

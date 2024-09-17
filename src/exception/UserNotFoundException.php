@@ -2,9 +2,11 @@
 
 namespace src\exception;
 
-use Exception;
+class UserNotFoundException extends HttpException {
 
-class UserNotFoundException extends Exception
-{
+    public function __construct()
+    {
+        parent::__construct("User not found", 500);
+    }
 
 }

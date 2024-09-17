@@ -4,7 +4,6 @@ namespace src\service;
 
 use Exception;
 use src\database\Database;
-use src\exception\InvalidUserDataException;
 use src\exception\RoleNotFoundException;
 use src\exception\UserAlreadyExistsException;
 use src\exception\UserNotFoundException;
@@ -14,7 +13,8 @@ use src\repository\UserRepository;
 class UserService {
 
     /**
-     * @throws InvalidUserDataException
+     * @throws UserAlreadyExistsException
+     * @throws RoleNotFoundException
      * @throws Exception
      */
     public static function createUser($data) {
@@ -47,6 +47,7 @@ class UserService {
 
     /**
      * @throws UserNotFoundException
+     * @throws Exception
      */
     public static function getUser($data) {
 
@@ -61,6 +62,54 @@ class UserService {
 
         $user['roles'] = UserRepository::getUserRolesById($user['id']);
         return $user;
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public static function updateUserFullName($userId, $data): void {
+        $user = UserRepository::getUserById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        UserRepository::updateUserFirstNameAndLastName($userId, $data["firstName"], $data["lastName"]);
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public static function updateUserEmail($userId, $data): void {
+        $user = UserRepository::getUserById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        UserRepository::updateUserEmail($userId, $data["email"]);
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public static function updateUserPhone($userId, $data): void {
+        $user = UserRepository::getUserById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        UserRepository::updateUserPhone($userId, $data["phone"]);
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public static function updateUserPassword($userId, $data): void {
+        $user = UserRepository::getUserById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        UserRepository::updateUserPassword($userId, password_hash($data['newPassword'], PASSWORD_BCRYPT));
     }
 
 }

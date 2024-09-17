@@ -2,9 +2,11 @@
 
 namespace src\exception;
 
-use Exception;
+class UserAlreadyExistsException extends HttpException {
 
-class UserAlreadyExistsException extends Exception
-{
+    public function __construct()
+    {
+        parent::__construct("User already exists", 500);
+    }
 
 }

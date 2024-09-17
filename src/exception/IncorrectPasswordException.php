@@ -2,8 +2,11 @@
 
 namespace src\exception;
 
-use Exception;
+class IncorrectPasswordException extends HttpException {
 
-class IncorrectPasswordException extends Exception{
+    public function __construct()
+    {
+        parent::__construct("Incorrect password", 400);
+    }
 
 }

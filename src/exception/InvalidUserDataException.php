@@ -2,8 +2,11 @@
 
 namespace src\exception;
 
-use Exception;
+class InvalidUserDataException extends HttpException {
 
-class InvalidUserDataException extends Exception {
+    public function __construct()
+    {
+        parent::__construct("Invalid input user data", 400);
+    }
 
 }
