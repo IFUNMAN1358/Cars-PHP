@@ -9,6 +9,16 @@ class UserRequest {
     /**
      * @throws InvalidUserDataException
      */
+    public static function validateGetUser($data): ?array {
+        if (!isset($data['userId'])) {
+            throw new InvalidUserDataException();
+        }
+        return $data;
+    }
+
+    /**
+     * @throws InvalidUserDataException
+     */
     public static function validateRegisterData($data): ?array {
         if (!isset($data['firstName'], $data['lastName'], $data['phone'], $data['email'], $data['password'])) {
             throw new InvalidUserDataException();

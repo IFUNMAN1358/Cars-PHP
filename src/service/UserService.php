@@ -37,10 +37,10 @@ class UserService {
             if (!$role) {
                 throw new RoleNotFoundException();
             }
-            UserRepository::assignRoleToUser($userId, $role['id']);
+            RoleRepository::assignRoleToUser($userId, $role['id']);
 
             $user = UserRepository::getUserById($userId);
-            $user['roles'] = UserRepository::getUserRolesById($userId);
+            $user['roles'] = RoleRepository::getUserRolesById($userId);
             return $user;
         });
     }
@@ -49,7 +49,8 @@ class UserService {
      * @throws UserNotFoundException
      * @throws Exception
      */
-    public static function getUser($data) {
+    public static function getUser($data): array
+    {
 
         $id = $data['userId'] ?? null;
         $email = $data['email'] ?? null;
@@ -60,7 +61,7 @@ class UserService {
             throw new UserNotFoundException();
         }
 
-        $user['roles'] = UserRepository::getUserRolesById($user['id']);
+        $user['roles'] = RoleRepository::getUserRolesById($user['id']);
         return $user;
     }
 
@@ -110,6 +111,18 @@ class UserService {
             throw new UserNotFoundException();
         }
         UserRepository::updateUserPassword($userId, password_hash($data['newPassword'], PASSWORD_BCRYPT));
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
+    public static function deleteUser($userId,): void {
+        $user = UserRepository::getUserById($userId);
+        if (!$user) {
+            throw new UserNotFoundException();
+        }
+        UserRepository::deleteUser($userId);
     }
 
 }

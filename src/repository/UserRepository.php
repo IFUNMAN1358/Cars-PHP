@@ -7,7 +7,8 @@ use Exception;
 class UserRepository extends BaseRepository {
 
     /* @throws Exception */
-    public static function getUserById($userId) {
+    public static function getUserById($userId): ?array
+    {
         return self::getFirst(
             "SELECT * FROM users WHERE id = :user_id",
             [':user_id' => $userId]
@@ -15,15 +16,8 @@ class UserRepository extends BaseRepository {
     }
 
     /* @throws Exception */
-    public static function getUserByEmail($email) {
-        return self::getFirst(
-            "SELECT * FROM users WHERE email = :email",
-            [':email' => $email]
-        );
-    }
-
-    /* @throws Exception */
-    public static function getUserByEmailOrPhone($email, $phone) {
+    public static function getUserByEmailOrPhone($email, $phone): ?array
+    {
         return self::getFirst(
             "SELECT * FROM users WHERE email = :email OR phone = :phone",
             [':email' => $email, ':phone' => $phone]
@@ -31,22 +25,12 @@ class UserRepository extends BaseRepository {
     }
 
     /* @throws Exception */
-    public static function getUserByIdOrEmailOrPhone($id, $email, $phone) {
+    public static function getUserByIdOrEmailOrPhone($id, $email, $phone): ?array
+    {
         return self::getFirst(
             "SELECT * FROM users WHERE id = :id OR email = :email OR phone = :phone",
             [':id' => $id, ':email' => $email, ':phone' => $phone]
         );
-    }
-
-    /* @throws Exception */
-    public static function getUserRolesById($userId): array {
-        $roles = self::getAll(
-            "SELECT r.name FROM roles r
-                 JOIN role_user ru ON r.id = ru.role_id
-                 WHERE ru.user_id = :user_id",
-            [':user_id' => $userId]
-        );
-        return array_column($roles, 'name');
     }
 
     /* @throws Exception */
@@ -103,10 +87,11 @@ class UserRepository extends BaseRepository {
     }
 
     /* @throws Exception */
-    public static function assignRoleToUser($userId, $roleId): int {
-        return self::save(
-            "INSERT INTO role_user (user_id, role_id) VALUES (:user_id, :role_id)",
-            [':user_id' => $userId, ':role_id' => $roleId]);
+    public static function deleteUser($userId): void {
+        self::delete(
+            "DELETE FROM users WHERE id = :id",
+            [':id' => $userId]
+        );
     }
 
 }

@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="resources/css/header.css">
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/footer.css">
-    <script src="resources/js/redirect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <header>
     <div class="container">
         <div class="logo">CARS</div>
         <nav>
-            <span onclick="openMainPage()">Главная</span>
-            <span onclick="openCatalogPage()">Каталог</span>
+            <span id="mainPageLink">Главная</span>
+            <span id="catalogPageLink">Каталог</span>
         </nav>
         <div class="auth">
-            <span onclick="openLoginPage()">Вход</span>
-            <span onclick="openRegistrationPage()">Регистрация</span>
+            <span id="loginPageLink">Вход</span>
+            <span id="registerPageLink">Регистрация</span>
         </div>
     </div>
 </header>
@@ -59,6 +59,19 @@
         </div>
     </div>
 </footer>
+<script type="module">
+    import { updateAuthButtons } from "./resources/js/core/loader.js";
+    import {openCatalogPage, openLoginPage, openMainPage, openRegistrationPage} from "./resources/js/core/redirect.js";
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('mainPageLink').addEventListener('click', openMainPage);
+        document.getElementById('catalogPageLink').addEventListener('click', openCatalogPage);
+        document.getElementById('loginPageLink').addEventListener('click', openLoginPage);
+        document.getElementById('registerPageLink').addEventListener('click', openRegistrationPage);
+
+        updateAuthButtons();
+    });
+</script>
 </body>
 </html>
 

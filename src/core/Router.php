@@ -2,33 +2,35 @@
 
 namespace src\core;
 
+use src\security\JwtFilter;
+
 class Router {
 
     private array $routes = [];
 
-    public function get($uri, $action, $filters = []): void
+    public function get($uri, $action, $roles): void
     {
-        $this->routes['GET'][$uri] = ['action' => $action, 'filters' => $filters];
+        $this->routes['GET'][$uri] = ['action' => $action, 'roles' => $roles];
     }
 
-    public function post($uri, $action, $filters = []): void
+    public function post($uri, $action, $roles): void
     {
-        $this->routes['POST'][$uri] = ['action' => $action, 'filters' => $filters];
+        $this->routes['POST'][$uri] = ['action' => $action, 'roles' => $roles];
     }
 
-    public function put($uri, $action, $filters = []): void
+    public function put($uri, $action, $roles): void
     {
-        $this->routes['PUT'][$uri] = ['action' => $action, 'filters' => $filters];
+        $this->routes['PUT'][$uri] = ['action' => $action, 'roles' => $roles];
     }
 
-    public function patch($uri, $action, $filters = []): void
+    public function patch($uri, $action, $roles): void
     {
-        $this->routes['PATCH'][$uri] = ['action' => $action, 'filters' => $filters];
+        $this->routes['PATCH'][$uri] = ['action' => $action, 'roles' => $roles];
     }
 
-    public function delete($uri, $action, $filters = []): void
+    public function delete($uri, $action, $roles): void
     {
-        $this->routes['DELETE'][$uri] = ['action' => $action, 'filters' => $filters];
+        $this->routes['DELETE'][$uri] = ['action' => $action, 'roles' => $roles];
     }
 
     public function addRouter(Router $otherRouter): void
@@ -47,26 +49,19 @@ class Router {
 
         if (isset($this->routes[$method][$uri])) {
             $route = $this->routes[$method][$uri];
-            $filters = $route['filters'];
             $action = $route['action'];
+            $roles = $route['roles'];
 
-            $this->applyFilters($filters, $action);
+            if ($roles) {
+                JwtFilter::handle(function() use ($action) {
+                    call_user_func($action);
+                }, $roles);
+            } else {
+                call_user_func($action);
+            }
         } else {
             http_response_code(404);
             echo json_encode(["error" => "Route not found"]);
         }
-    }
-
-    private function applyFilters(array $filters, callable $action): void
-    {
-        $pipeline = array_reduce(array_reverse($filters), function($next, $filter) {
-            return function() use ($next, $filter) {
-                $filter::handle($next);
-            };
-        }, function() use ($action) {
-            call_user_func($action);
-        });
-
-        $pipeline();
     }
 }

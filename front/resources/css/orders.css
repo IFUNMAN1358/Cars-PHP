@@ -1,0 +1,71 @@
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.orders-container h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.order-item {
+    background-color: #2A2C29;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.order-item h2, .order-item p {
+    margin: 5px 0;
+}
+
+.order-item p strong {
+    color: #8D908A;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.order-item .openCarButton {
+    background-color: #8D908A;
+    margin-right: 5px;
+    border: none;
+    border-radius: 8px;
+    color: #2A2C29;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.order-item .openCarButton:hover {
+    background-color: #6B6D6A;
+}
+
+@media (max-width: 768px) {
+    .orders-container {
+        padding: 10px;
+    }
+
+    .order-item {
+        padding: 15px;
+    }
+
+    .order-item h2 {
+        font-size: 18px;
+    }
+
+    .order-item .openCarButton {
+        padding: 15px;
+        font-size: 16px;
+    }
+}

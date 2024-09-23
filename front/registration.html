@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="resources/css/header.css">
     <link rel="stylesheet" href="resources/css/registration.css">
     <link rel="stylesheet" href="resources/css/footer.css">
-    <script src="resources/js/redirect.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -16,12 +15,12 @@
     <div class="container">
         <div class="logo">CARS</div>
         <nav>
-            <span onclick="openMainPage()">Главная</span>
-            <span onclick="openCatalogPage()">Каталог</span>
+            <span id="mainPageLink">Главная</span>
+            <span id="catalogPageLink">Каталог</span>
         </nav>
         <div class="auth">
-            <span onclick="openLoginPage()">Вход</span>
-            <span onclick="openRegistrationPage()">Регистрация</span>
+            <span id="loginPageLink">Вход</span>
+            <span id="registerPageLink">Регистрация</span>
         </div>
     </div>
 </header>
@@ -66,7 +65,7 @@
                 <input type="password" name="confirm_password" id="confirm_password" placeholder="Повторите пароль" required>
             </div>
 
-            <button type="button" onclick="submitRegistration()">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+            <button type="button" id="registerButton">ЗАРЕГИСТРИРОВАТЬСЯ</button>
         </form>
     </div>
 </main>
@@ -85,57 +84,21 @@
         </div>
     </div>
 </footer>
-<script>
-    async function submitRegistration() {
-        const firstName = document.getElementById('first_name').value;
-        const lastName = document.getElementById('last_name').value;
-        const phone = document.getElementById('phone').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm_password').value;
+<script type="module">
+    import { updateAuthButtons } from "./resources/js/core/loader.js";
+    import {openCatalogPage, openLoginPage, openMainPage, openRegistrationPage} from "./resources/js/core/redirect.js";
+    import {submitRegistration} from "./resources/js/request/auth/registration.js";
 
-        let hasError = false;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('mainPageLink').addEventListener('click', openMainPage);
+        document.getElementById('catalogPageLink').addEventListener('click', openCatalogPage);
+        document.getElementById('loginPageLink').addEventListener('click', openLoginPage);
+        document.getElementById('registerPageLink').addEventListener('click', openRegistrationPage);
 
-        document.querySelectorAll('.error').forEach(errorElement => errorElement.style.display = 'none');
+        document.getElementById('registerButton').addEventListener('click', submitRegistration);
 
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        if (!emailPattern.test(email)) {
-            document.getElementById('email_error').textContent = 'Некорректный email';
-            document.getElementById('email_error').style.display = 'block';
-            hasError = true;
-        }
-
-        const phonePattern = /^\+?[78][-(]?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{2}[-.\s]?\d{2}$/;
-        if (!phonePattern.test(phone)) {
-            document.getElementById('phone_error').textContent = 'Некорректный номер телефона';
-            document.getElementById('phone_error').style.display = 'block';
-            hasError = true;
-        }
-
-        if (password !== confirmPassword) {
-            document.getElementById('confirm_password_error').textContent = 'Пароли не совпадают';
-            document.getElementById('confirm_password_error').style.display = 'block';
-            hasError = true;
-        }
-
-        if (hasError) return;
-
-        const data = {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            phone: phone,
-            password: password
-        };
-
-        try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/registration`, data);
-            console.log(response.data);
-            window.location.href = "./login.html";
-        } catch (error) {
-            console.error(error.response.data);
-        }
-    }
+        updateAuthButtons();
+    });
 </script>
 </body>
 </html>

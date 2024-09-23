@@ -3,6 +3,7 @@
 namespace src\controller;
 
 use Exception;
+use src\core\AuthContext;
 use src\core\Request;
 use src\core\Response;
 use src\dto\UserRequest;
@@ -12,7 +13,6 @@ use src\exception\InvalidUserDataException;
 use src\exception\RoleNotFoundException;
 use src\exception\UserAlreadyExistsException;
 use src\exception\UserNotFoundException;
-use src\security\AuthContext;
 use src\service\JwtService;
 use src\service\UserService;
 
@@ -25,7 +25,7 @@ class AuthController {
      * @throws Exception
      */
     public function registration(): void {
-        $data = UserRequest::validateRegisterData(Request::getBody());
+        $data = UserRequest::validateRegisterData(Request::getJson());
 
         $user = UserService::createUser($data);
 
@@ -42,7 +42,7 @@ class AuthController {
      * @throws Exception
      */
     public function login(): void {
-        $data = UserRequest::validateLoginData(Request::getBody());
+        $data = UserRequest::validateLoginData(Request::getJson());
 
         $user = UserService::getUser($data);
 

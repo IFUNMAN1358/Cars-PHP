@@ -1,6 +1,6 @@
 <?php
 
-namespace src\security;
+namespace src\core;
 
 class AuthContext
 {

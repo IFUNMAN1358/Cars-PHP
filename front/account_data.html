@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cars</title>
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/header.css">
+  <link rel="stylesheet" href="resources/css/account_data.css">
+  <link rel="stylesheet" href="resources/css/footer.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">CARS</div>
+    <nav>
+      <span id="mainPageLink">Главная</span>
+      <span id="catalogPageLink">Каталог</span>
+    </nav>
+    <div class="auth">
+      <span id="loginPageLink">Вход</span>
+      <span id="registerPageLink">Регистрация</span>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="account-data-container">
+    <h2>ДАННЫЕ АККАУНТА</h2>
+
+    <div class="account-row">
+      <span id="currentFullName" class="current-value"></span>
+      <div class="error" id="fullNameError"></div>
+      <div class="input-group">
+        <label>
+          <input id="fullNameInput" placeholder="Новое имя и фамилия" class="input-field">
+        </label>
+        <button id="confirmFullNameButton" class="confirm-button">
+          <img src="resources/images/confirm-icon.png" alt="Confirm">
+        </button>
+      </div>
+    </div>
+
+    <div class="account-row">
+      <span id="currentEmail" class="current-value"></span>
+      <div class="error" id="emailError"></div>
+      <div class="input-group">
+        <label>
+          <input type="email" id="emailInput" placeholder="Новый email" class="input-field">
+        </label>
+        <button id="confirmEmailButton" class="confirm-button">
+          <img src="resources/images/confirm-icon.png" alt="Confirm">
+        </button>
+      </div>
+    </div>
+
+    <div class="account-row">
+      <span id="currentPhone" class="current-value"></span>
+      <div class="error" id="phoneError"></div>
+      <div class="input-group">
+        <label>
+          <input type="text" id="phoneInput" placeholder="Новый телефон" class="input-field">
+        </label>
+        <button id="confirmPhoneButton" class="confirm-button">
+          <img src="resources/images/confirm-icon.png" alt="Confirm">
+        </button>
+      </div>
+    </div>
+
+    <h3>СМЕНА ПАРОЛЯ</h3>
+    <div class="account-row">
+      <div class="error" id="currentPasswordError"></div>
+      <div class="input-group">
+        <label>
+          <input type="password" id="currentPasswordInput" placeholder="Текущий пароль" class="input-field">
+        </label>
+      </div>
+    </div>
+    <div class="account-row">
+      <div class="error" id="newPasswordError"></div>
+      <div class="input-group">
+        <label>
+          <input type="password" id="newPasswordInput" placeholder="Новый пароль" class="input-field">
+        </label>
+      </div>
+    </div>
+    <div class="account-row">
+      <div class="error" id="confirmPasswordError"></div>
+      <div class="input-group">
+        <label>
+          <input type="password" id="confirmNewPasswordInput" placeholder="Повторите новый пароль" class="input-field">
+        </label>
+        <button id="confirmPasswordButton" class="confirm-button">
+          <img src="resources/images/confirm-icon.png" alt="Confirm">
+        </button>
+      </div>
+    </div>
+
+    <button class="delete-account-button" id="deleteAccountButton">Удалить аккаунт</button>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div class="support">
+      <p>Поддержка</p>
+      <p>Низкие цены</p>
+      <p>Быстрая доставка</p>
+    </div>
+    <div class="contacts">
+      <p>Контакты</p>
+      <p>Telegram: @cars</p>
+      <p>ВКонтакте: vk.com/Cars</p>
+      <p>Телефон: +7-800-000-80-80</p>
+    </div>
+  </div>
+</footer>
+<script type="module">
+  import { openMainPage, openCatalogPage } from "./resources/js/core/redirect.js";
+  import {updateAuthButtons} from "./resources/js/core/loader.js";
+  import {openLoginPage, openRegistrationPage, openDeleteAccountPage} from "./resources/js/core/redirect.js";
+  import {updateFullName} from "./resources/js/request/user/fullName.js";
+  import {getUser} from "./resources/js/request/user/user.js";
+  import {updateEmail} from "./resources/js/request/user/email.js";
+  import {updatePhone} from "./resources/js/request/user/phone.js";
+  import {updatePassword} from "./resources/js/request/user/password.js";
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('mainPageLink').addEventListener('click', openMainPage);
+    document.getElementById('catalogPageLink').addEventListener('click', openCatalogPage);
+    document.getElementById('loginPageLink').addEventListener('click', openLoginPage);
+    document.getElementById('registerPageLink').addEventListener('click', openRegistrationPage);
+    document.getElementById('deleteAccountButton').addEventListener('click', openDeleteAccountPage);
+
+    document.getElementById('confirmFullNameButton').addEventListener('click', updateFullName);
+    document.getElementById('confirmEmailButton').addEventListener('click', updateEmail);
+    document.getElementById('confirmPhoneButton').addEventListener('click', updatePhone);
+    document.getElementById('confirmPasswordButton').addEventListener('click', updatePassword);
+
+    updateAuthButtons();
+
+    try {
+      const user = await getUser();
+      document.getElementById('currentFullName').textContent = `${user.firstName} ${user.lastName}`;
+      document.getElementById('currentEmail').textContent = user.email;
+      document.getElementById('currentPhone').textContent = user.phone;
+    } catch (error) {
+      console.error("Ошибка загрузки данных пользователя:", error);
+    }
+  });
+</script>
+</body>
+</html>

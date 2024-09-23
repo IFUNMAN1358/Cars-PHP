@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cars</title>
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/header.css">
+  <link rel="stylesheet" href="resources/css/orders.css">
+  <link rel="stylesheet" href="resources/css/footer.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">CARS</div>
+    <nav>
+      <span id="mainPageLink">Главная</span>
+      <span id="catalogPageLink">Каталог</span>
+    </nav>
+    <div class="auth">
+      <span id="loginPageLink">Вход</span>
+      <span id="registerPageLink">Регистрация</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="orders-container">
+    <div id="ordersList"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="support">
+      <p>Поддержка</p>
+      <p>Низкие цены</p>
+      <p>Быстрая доставка</p>
+    </div>
+    <div class="contacts">
+      <p>Контакты</p>
+      <p>Telegram: @cars</p>
+      <p>ВКонтакте: vk.com/Cars</p>
+      <p>Телефон: +7-800-000-80-80</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { getAllRents } from './resources/js/request/rent/get.js';
+  import { openCarPage } from './resources/js/core/redirect.js';
+  import { getCar } from './resources/js/request/car/get.js';
+  import { getMUser } from './resources/js/request/user/user.js';
+  import { setStatusAccept, setStatusReject } from './resources/js/request/rent/status.js';
+  import { updateAuthButtons } from "./resources/js/core/loader.js";
+  import { openCatalogPage, openLoginPage, openMainPage, openRegistrationPage } from "./resources/js/core/redirect.js";
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('mainPageLink').addEventListener('click', openMainPage);
+    document.getElementById('catalogPageLink').addEventListener('click', openCatalogPage);
+    document.getElementById('loginPageLink').addEventListener('click', openLoginPage);
+    document.getElementById('registerPageLink').addEventListener('click', openRegistrationPage);
+    updateAuthButtons();
+
+    const ordersList = document.getElementById('ordersList');
+
+    try {
+      const rents = await getAllRents();
+
+      for (const rent of rents) {
+        const car = await getCar(rent.car_id);
+        const user = await getMUser(rent.user_id);
+
+        const orderElement = document.createElement('div');
+        orderElement.classList.add('order-item');
+
+        orderElement.innerHTML = `
+                    <h2>Автомобиль: ${car.name} (${car.issue_year})</h2>
+                    <p><strong>Имя пользователя:</strong> ${user.firstName} ${user.lastName}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <p><strong>Телефон:</strong> ${user.phone}</p>
+                    <p><strong>Адрес доставки:</strong> ${rent.address}</p>
+                    <p><strong>Количество дней аренды:</strong> ${rent.days_rent}</p>
+                    <p><strong>Дата начала аренды:</strong> ${rent.start_date.split(' ')[0]}</p>
+                    <p><strong>Дата окончания аренды:</strong> ${rent.end_date.split(' ')[0]}</p>
+                    <p><strong>Общая стоимость:</strong> ${rent.total_amount} ₽</p>
+                    <p><strong>Статус заявки:</strong> ${rent.status}</p>
+                    <div class="button-container">
+                        <button class="openCarButton" id="openCarPage-${rent.id}" data-id="${rent.id}">Открыть страницу автомобиля</button>
+                        <button class="openCarButton" id="acceptStatus-${rent.id}" data-id="${rent.id}">Принять</button>
+                        <button class="openCarButton" id="rejectStatus-${rent.id}" data-id="${rent.id}">Отклонить</button>
+                    </div>
+                `;
+
+        ordersList.appendChild(orderElement);
+      }
+
+      document.querySelectorAll('.openCarButton').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const rentId = e.target.getAttribute('data-id');
+
+          if (e.target.id.startsWith("openCarPage")) {
+            openCarPage(rentId);
+          } else if (e.target.id.startsWith("acceptStatus")) {
+            await setStatusAccept(rentId);
+          } else if (e.target.id.startsWith("rejectStatus")) {
+            await setStatusReject(rentId);
+          }
+        });
+      });
+
+    } catch (error) {
+      console.error("Ошибка при загрузке заявок: ", error);
+    }
+  });
+</script>
+</body>
+</html>
