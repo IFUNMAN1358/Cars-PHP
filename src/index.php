@@ -4,14 +4,11 @@ require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__ . '/config/Env.php';
 require_once __DIR__ . '/database/Database.php';
 require_once __DIR__ . '/core/ErrorHandler.php';
-require_once __DIR__ . '/security/CorsFilter.php';
 
 use src\config\Env;
 use src\core\ErrorHandler;
 use src\core\Router;
-use src\security\CorsFilter;
 
-CorsFilter::permit();
 Env::init();
 set_exception_handler([ErrorHandler::class, 'handleException']);
 

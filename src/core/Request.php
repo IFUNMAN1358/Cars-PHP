@@ -26,10 +26,9 @@ class Request {
 
     public static function getAuthorizationHeader(): ?string
     {
-        if (isset($_SERVER['Authorization'])) {
-            return trim($_SERVER['Authorization']);
-        } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            return trim($_SERVER['HTTP_AUTHORIZATION']);
+        $headers = getallheaders();
+        if (isset($headers['Authorization'])) {
+            return trim($headers['Authorization']);
         }
         return null;
     }
